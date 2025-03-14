@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Store</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #0b0c10;
+            color: #c5c6c7;
+        }
+        .nav {
+            background: #1f2833;
+            padding: 15px;
+            text-align: center;
+        }
+        .nav a {
+            color: #66fcf1;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #1f2833;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.5);
+            opacity: 0;
+        }
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product {
+            background: #0b0c10;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(102, 252, 241, 0.3);
+            width: 200px;
+            text-align: center;
+            opacity: 0;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .product .btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            font-size: 14px;
+            color: white;
+            background: #45a29e;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .product .btn:hover {
+            background: #66fcf1;
+            color: #1f2833;
+        }
+        h1 {
+            color: #66fcf1;
+        }
+        p {
+            font-size: 18px;
+            color: #c5c6c7;
+        }
+        .thank-you {
+            margin-top: 50px;
+            padding: 20px;
+            background: #1f2833;
+            color: #c5c6c7;
+            border-radius: 10px;
+        }
+        .footer {
+            margin-top: 50px;
+            padding: 20px;
+            background: #1f2833;
+            color: #c5c6c7;
+        }
+        .congrats {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: #66fcf1;
+            opacity: 0;
+            z-index: 1000;
+        }
+        /* Holi Special Offer Section */
+        .holi-offer {
+            background: linear-gradient(135deg, #ff6f61, #ffcc00, #4caf50, #2196f3);
+            padding: 30px;
+            margin: 20px auto;
+            border-radius: 15px;
+            color: white;
+            max-width: 800px;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        .holi-offer h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .holi-offer p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .holi-offer .btn {
+            background: #ff4081;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .holi-offer .btn:hover {
+            background: #ff79a9;
+        }
+        .coupons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .coupon {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .coupon:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .coupon span {
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+        .coupon .copy-btn {
+            background: #ff4081;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .coupon .copy-btn:hover {
+            background: #ff79a9;
+        }
+        /* Terms and Conditions Section */
+        .terms {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+        .terms a {
+            color: #66fcf1;
+            text-decoration: none;
+        }
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        /* Modal for Redemption Process */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #1f2833;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: left;
+            color: #c5c6c7;
+        }
+        .modal-content h3 {
+            color: #66fcf1;
+            margin-bottom: 15px;
+        }
+        .modal-content ul {
+            padding-left: 20px;
+        }
+        .modal-content ul li {
+            margin-bottom: 10px;
+        }
+        .modal-content .close-btn {
+            background: #ff4081;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .modal-content .close-btn:hover {
+            background: #ff79a9;
+        }
+    </style>
+</head>
+<body>
+    <div class="congrats" id="congrats">Congratulations!</div>
+    <div class="nav">
+      <h1>RGET TECHNOLOGY</h1>
+    </div>
+    <div class="container" id="welcome-container">
+        <h1>Welcome to Our Store!</h1>
+        <h1>RGET TECHNOLOGY</h1>
+        <p>Explore our latest electronic gadgets and enjoy great deals.</p>
+    </div>
+
+  <!-- Holi Special Offer Section -->
+  <div class="holi-offer" id="holi-offer">
+    <h2>Holi Special Offer!</h2>
+    <p>Celebrate Holi with us and enjoy <strong>FLAT 30% OFF</strong> on all products!</p>
+    <div class="coupons">
+        <div class="coupon" onclick="generateAndSendCoupon()">
+            <span id="couponCode">Click to Generate Code</span>
+            <div class="copy-btn">Generate & Copy Code</div>
+        </div>
+    </div>
+    <div class="terms">
+        <p><a href="#" onclick="showTerms()">View Terms and Conditions</a></p>
+    </div>
+    <button class="btn">Shop Now</button>
+</div>
+    <div class="terms">
+        <p><a href="#" onclick="showTerms()">View Terms and Conditions</a></p>
+    </div>
+    <button class="btn">Shop Now</button>
+</div>
+
+    <!-- Modal for Redemption Process and Terms -->
+    <div class="modal" id="termsModal">
+        <div class="modal-content">
+            <h3>Coupon Redemption Process & Terms</h3>
+            <ul>
+                <li>Minimum purchase of ₹1000 is required to use this coupon.</li>
+                <li>Get an instant discount of ₹50 on your purchase.</li>
+                <li>Coupon code must be applied at checkout.</li>
+                <li>Valid only on selected products.</li>
+                <li>Offer valid until <strong>31st March 2024</strong>.</li>
+                <li>Only one coupon can be used per order.</li>
+                <li>Cannot be combined with other offers or discounts.</li>
+            </ul>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <div class="product-list">
+      <div class="product"><img src="desktop.jpeg" alt="Desktop"><p>Desktop</p></div>
+      <div class="product"><img src="laptop.jpeg" alt="Laptop"><p>Laptop</p></div>
+      <div class="product"><img src="printer.jpeg" alt="Printer"><p>Printer</p></div>
+      <div class="product"><img src="cctv.jpeg" alt="CCTV Camera"><p>CCTV Camera</p></div>
+      <div class="product"><img src="headphone.jpeg" alt="Headphone"><p>Headphone</p></div>
+      <div class="product"><img src="webCame.jpeg" alt="Webcam"><p>Webcam</p></div>
+      <div class="product"><img src="gamingpc.jpeg" alt="Gaming PC"><p>Gaming PC</p></div>
+      <div class="product"><img src="amdProcceesor.jpeg" alt="Processor"><p>Advanced Processor</p></div>
+      <div class="product"><img src="intel.jpeg" alt="Intel Processor"><p>Intel Processor</p></div>
+      <div class="product"><img src="grphics.jpeg" alt="Graphics Card"><p>Graphics Card</p></div>
+    </div>
+    <div class="thank-you">
+        <h2>Thank You for Visiting!</h2>
+        <p>We appreciate your support. Feel free to explore our products.</p>
+        <a href="https://in.canon/en/consumer/pixma-g3010/product" > <button type="button" class="btn">View Products</button></a>
+    </div>
+    <div class="footer">
+        <p>&copy; 2025 RGET Technology. All rights reserved.</p>
+    </div>
+    <script>
+        // Congratulations animation
+        gsap.from("#congrats", {
+            opacity: 0,
+            scale: 0,
+            duration: 2,
+            ease: "elastic.out(1, 0.5)",
+            onComplete: () => {
+                gsap.to("#congrats", {
+                    opacity: 0,
+                    duration: 1,
+                    delay: 1,
+                    ease: "power2.out",
+                    onComplete: () => {
+                        document.getElementById("congrats").style.display = "none";
+                    }
+                });
+            }
+        });
+
+        // Holi Special Offer Animation
+        gsap.to("#holi-offer", {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            delay: 1,
+            ease: "bounce.out"
+        });
+
+        // Other animations
+        gsap.to(".container", {opacity: 1, duration: 1.5, y: -20, stagger: 0.5, ease: "power2.out"});
+        gsap.from("h1", {opacity: 0, y: 50, duration: 1, stagger: 0.3, ease: "back.out(1.7)"});
+        gsap.from(".btn", {scale: 0, duration: 0.7, delay: 1, ease: "elastic.out(1, 0.5)"});
+        gsap.from(".nav a", {opacity: 0, y: -20, duration: 1, stagger: 0.2, ease: "power2.out"});
+        gsap.from(".footer", {opacity: 0, y: 30, duration: 1.2, ease: "power2.out"});
+        gsap.to(".product", {opacity: 1, duration: 1.5, y: -10, stagger: 0.2, ease: "power2.out"});
+
+        // Copy Coupon Function
+        function copyCoupon(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                alert(`Coupon code "${code}" copied to clipboard!`);
+            }).catch(() => {
+                alert("Failed to copy coupon code.");
+            });
+        }
+
+        // Show Terms Modal
+        function showTerms() {
+            document.getElementById("termsModal").style.display = "flex";
+        }
+
+        // Close Terms Modal
+        function closeModal() {
+            document.getElementById("termsModal").style.display = "none";
+        }
+            // Function to generate a random coupon code
+    function generateCouponCode() {
+        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let couponCode = "HOLI"; // Prefix for the coupon code
+        for (let i = 0; i < 6; i++) { // 6 random characters
+            couponCode += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return couponCode;
+    }
+
+    // Function to handle coupon generation, copying, and WhatsApp redirection
+    function generateAndSendCoupon() {
+        // Generate a new coupon code
+        const couponCode = generateCouponCode();
+
+        // Update the displayed coupon code
+        document.getElementById("couponCode").textContent = couponCode;
+
+        // Replace with your WhatsApp number (include country code, e.g., 911234567890)
+        const whatsappNumber = "9330733857"; // Example: 91 for India, followed by the number
+
+        // Predefined message
+        const message = `Hi, I just generated the coupon code ${couponCode} from your website. Please guide me on how to use it.`;
+
+        // Encode the message for URL
+        const encodedMessage = encodeURIComponent(message);
+
+        // Create the WhatsApp URL
+        const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+        // Copy the coupon code to clipboard
+        navigator.clipboard.writeText(couponCode).then(() => {
+            alert(`Coupon code "${couponCode}" copied to clipboard! Redirecting to WhatsApp...`);
+            // Redirect to WhatsApp
+            window.open(whatsappURL, "_blank");
+        }).catch(() => {
+            alert("Failed to copy coupon code.");
+        });
+    }
+    </script>
+</body>
+</html>
